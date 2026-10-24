@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTrack Pro - Admin Portal</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="brand">
+            <i class="ph-bold ph-shield-check"></i>
+            <div><span>Edu</span>Track <small style="font-size: 11px; display: block; color: var(--danger); font-family: 'Inter', sans-serif;">ADMIN PORTAL</small></div>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a class="nav-item active" onclick="showSection('users')"><i class="ph-bold ph-users"></i> Manage Users</a>
+            <a class="nav-item" onclick="showSection('face')"><i class="ph-bold ph-scan"></i> Face Enrollment</a>
+        </div>
+        <div class="nav-bottom">
+            <a class="nav-item" onclick="logout()" style="color: var(--danger)"><i class="ph-bold ph-sign-out"></i> Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="header-left">
+                <h1>System Administration</h1>
+            </div>
+            <div class="header-right">
+                <button class="theme-toggle" onclick="toggleTheme()"><i class="ph-bold ph-sun" id="themeIcon"></i></button>
+                <div class="badge danger">Administrator</div>
+                <div class="profile-chip">
+                    <div class="avatar" id="userAvatar">A</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="page-wrapper">
+            <!-- MANAGE USERS -->
+            <section id="users" class="page-section active">
+                <div class="section-header">
+                    <h2 class="section-title">Directory Management</h2>
+                </div>
+                
+                <div class="chart-container" style="min-height:auto; margin-bottom: 24px;">
+                    <h3><i class="ph-bold ph-user-plus"></i> Add New User</h3>
+                    <div class="grid" style="margin-top:16px; margin-bottom:0;">
+                        <select id="newRole">
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                        </select>
+                        <input id="newId" placeholder="User ID (e.g., STU001)">
+                        <input id="newName" placeholder="Full Name">
+                        <input id="newPass" type="password" placeholder="Password">
+                        <input id="newSub" placeholder="Subject (Optional for Teacher)">
+                    </div>
+                    <button onclick="createNewUser()" style="margin-top:15px;" class="danger"><i class="ph-bold ph-plus"></i> Create System User</button>
+                </div>
+
+                <div class="chart-container" style="min-height:auto; overflow-x: auto;">
+                    <h3><i class="ph-bold ph-address-book"></i> System Access Directory</h3>
+                    <table id="usersTable" style="margin-top:16px;">
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Subject</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- FACE ENROLLMENT -->
+            <section id="face" class="page-section">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                    <h2 class="section-title">Biometric Face Enrollment</h2>
+                </div>
+
+                <div class="badge info" style="margin-bottom: 24px; padding: 10px 16px;">
+                    Administrative tool for securely enrolling student face profiles to the database.
+                </div>
+                
+                <div class="face-container">
+                    <div class="camera-box">
+                        <video id="video" width="480" height="360" autoplay muted style="border-radius:12px;"></video>
+                        <canvas id="canvas" width="480" height="360" style="position:absolute; top:0; left:0; border-radius:12px; pointer-events:none;"></canvas>
+                    </div>
+                    
+                    <div class="controls-box">
+                        <div class="chart-container" style="min-height:auto; margin-bottom:20px;">
+                            <h3 style="margin-bottom:15px; font-size:16px;"><i class="ph-bold ph-cpu"></i> System Readiness</h3>
+                            <div id="status" style="color:var(--text-secondary); font-size:14px; margin-bottom:10px;">
+                                Ready to load AI models...
+                            </div>
+                            <pre id="faceOutput" style="color:var(--accent); font-size:13px; white-space:pre-wrap;"></pre>
+                        </div>
+
+                        <div class="chart-container" style="min-height:auto; margin-bottom:20px;">
+                            <h3 style="margin-bottom:15px; font-size:16px;"><i class="ph-bold ph-video-camera"></i> 1. Camera Access</h3>
+                            <div style="display:flex; flex-direction:column; gap:10px;">
+                                <button id="startCameraBtn" onclick="startVideoAdmin()" class="outline"><i class="ph-bold ph-play"></i> Start Enrollment Camera</button>
+                                <button id="stopCameraBtn" onclick="stopVideo()" class="outline" disabled><i class="ph-bold ph-stop"></i> Stop Camera</button>
+                            </div>
+                        </div>
+
+                        <div class="chart-container" style="min-height:auto;">
+                            <h3 style="margin-bottom:15px; font-size:16px;"><i class="ph-bold ph-camera"></i> 2. Capture & Enroll</h3>
+                            <input id="studentId" type="text" placeholder="Target Student ID" style="margin-bottom:12px;">
+                            <div style="display:flex; flex-direction:column; gap:10px;">
+                                <button id="captureFaceBtn" onclick="captureFace()" class="outline" disabled><i class="ph-bold ph-aperture"></i> Capture Target Face</button>
+                                <button id="enrollFaceBtn" onclick="enrollFace()" class="danger" disabled><i class="ph-bold ph-fingerprint"></i> Commit Face Signature</button>
+                                <button id="resetFaceBtn" onclick="resetFaceCapture()" class="outline" disabled><i class="ph-bold ph-arrow-counter-clockwise"></i> Enroll Another Face</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    </div>
+
+    <div id="toastContainer" class="notification-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            const role = localStorage.getItem("userRole");
+            if(role !== "admin") {
+                window.location.href = "/";
+                return;
+            }
+            loadAllUsers();
+            initFacePageAdmin();
+        });
+    </script>
+</body>
+</html>

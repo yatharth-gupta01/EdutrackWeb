@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTrack Pro - AI Attendance</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="padding: 40px; width: 100%; max-width: 1000px; margin: 0 auto;">
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+            <h2 class="section-title"><i class="ph-bold ph-scan"></i> AI Vision Attendance</h2>
+            <div style="display:flex; gap:12px;">
+                <button class="theme-toggle" onclick="toggleTheme()" style="background:var(--bg-panel); border:1px solid var(--border); border-radius:10px;"><i class="ph-bold ph-sun" id="themeIcon"></i></button>
+                <button class="secondary" onclick="window.location.href='dashboard.html'"><i class="ph-bold ph-arrow-left"></i> Back to Dashboard</button>
+            </div>
+        </div>
+
+        <div class="badge info" style="margin-bottom: 24px; padding: 10px 16px;">
+            <i class="ph-bold ph-info"></i> Click "Start Camera" below. The system automatically identifies any enrolled student. Provide an ID to force manual attendance.
+        </div>
+        
+        <div class="face-container">
+            <div class="camera-box">
+                <video id="video" width="480" height="360" autoplay muted style="border-radius:12px;"></video>
+                <canvas id="canvas" width="480" height="360" style="position:absolute; top:0; left:0; border-radius:12px; pointer-events:none;"></canvas>
+            </div>
+            
+            <div class="controls-box">
+                <div class="chart-container" style="min-height:auto; margin-bottom:20px;">
+                    <h3 style="margin-bottom:15px; font-size:16px;"><i class="ph-bold ph-activity"></i> Detection Status</h3>
+                    <div id="status" style="color:var(--text-secondary); font-size:14px; margin-bottom:10px;">
+                        Waiting for models to boot...
+                    </div>
+                    <pre id="faceOutput" style="color:var(--accent); font-size:13px; white-space:pre-wrap;"></pre>
+                </div>
+
+                <div class="chart-container" style="min-height:auto; margin-bottom:20px;">
+                    <h3 style="margin-bottom:15px; font-size:16px;"><i class="ph-bold ph-faders"></i> Core Controls</h3>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <button id="startCameraBtn" onclick="startVideo()" disabled><i class="ph-bold ph-play"></i> Start Camera & Verify</button>
+                        <button id="stopCameraBtn" class="outline" onclick="stopVideo()" disabled><i class="ph-bold ph-stop"></i> Stop Camera</button>
+                    </div>
+                </div>
+
+                <div class="chart-container" style="min-height:auto;">
+                    <h3 style="margin-bottom:15px; font-size:16px;"><i class="ph-bold ph-warning-circle"></i> Manual Overrides</h3>
+                    <input id="studentId" type="text" placeholder="Student ID" style="margin-bottom: 12px;">
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <button id="markAttendanceBtn" class="outline" onclick="markAttendanceFace()" disabled><i class="ph-bold ph-bounding-box"></i> Force Face Present</button>
+                        <button id="manualAttendanceBtn" class="outline" onclick="manualAttendance()"><i class="ph-bold ph-keyboard"></i> Force Bypass (Text ID)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="toastContainer" class="notification-container"></div>
+    </div>
+
+    <!-- Models -->
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        window.addEventListener('load', initFacePage);
+    </script>
+</body>
+</html>

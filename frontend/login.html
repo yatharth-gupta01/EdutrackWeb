@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTrack Pro - Login</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="login-wrapper">
+        <button class="theme-toggle" onclick="toggleTheme()" style="position: absolute; top: 20px; right: 20px; z-index: 10;"><i class="ph-bold ph-sun" id="themeIcon"></i></button>
+        
+        <div class="login-card">
+            <div style="font-size:36px; font-weight:700; margin-bottom:10px; color:var(--text-primary); display:flex; align-items:center; justify-content:center; gap:8px;">
+                <i class="ph-fill ph-graduation-cap" style="color:var(--primary-color);"></i>
+                <h2>EduTrack <span style="font-size: 14px; background: rgba(99, 102, 241, 0.2); padding: 4px 8px; border-radius: 8px; vertical-align: middle; color: var(--accent-color);">PRO</span></h2>
+            </div>
+            
+            <p>Welcome back! Please enter your credentials.</p>
+
+            <div style="margin-top: 32px;">
+                <div class="input-group">
+                    <label for="id">User ID</label>
+                    <div style="position:relative;">
+                        <i class="ph-bold ph-user" style="position:absolute; left:16px; top:14px; color:var(--text-secondary);"></i>
+                        <input id="id" type="text" placeholder="e.g., STU101" autocomplete="off" style="padding-left: 44px;">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="pass">Password</label>
+                    <div style="position:relative;">
+                        <i class="ph-bold ph-lock" style="position:absolute; left:16px; top:14px; color:var(--text-secondary);"></i>
+                        <input id="pass" type="password" placeholder="••••••••" style="padding-left: 44px;">
+                    </div>
+                </div>
+                
+                <button onclick="login(event)" style="margin-top: 16px;">Sign In to Dashboard <i class="ph-bold ph-arrow-right"></i></button>
+            </div>
+            
+            <p id="msg" style="margin-top:20px; color:var(--danger); font-weight:500; min-height:20px; text-align:center;"></p>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById("pass").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                login(event);
+            }
+        });
+        document.getElementById("id").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("pass").focus();
+            }
+        });
+    </script>
+</body>
+</html>

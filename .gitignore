@@ -1,0 +1,15 @@
+# Compiled Java class files
+*.class
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.iml
+.sixth/
+
+# OS metadata
+Thumbs.db
+.DS_Store
+
+# Temporary / Log files
+*.log

@@ -1,0 +1,3 @@
+STU101,Math,01,92
+STU101,Chemistry,01,93
+STU101,Physics,01,94

@@ -1,0 +1,12 @@
+student,STU101,rahul,1234
+teacher,TCH001,admin,admin123
+student,STU001,Alice,pass1
+student,STU002,Bob,pass2
+student,STU003,Charlie,pass3
+student,STU004,David,pass4
+student,STU005,Emma,pass5
+teacher,TCH002,Mr_Smith,tpass1,Math
+teacher,TCH003,Ms_Jones,tpass2,Science
+teacher,TCH004,Mr_Brown,tpass3,History
+teacher,TCH005,Ms_Davis,tpass4,English
+teacher,TCH006,Mr_Wilson,tpass5,Art,ADM001,Super Admin,adminpass
